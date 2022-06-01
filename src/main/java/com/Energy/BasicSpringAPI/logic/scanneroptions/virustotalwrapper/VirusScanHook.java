@@ -30,6 +30,7 @@ public class VirusScanHook {
             e.printStackTrace();
         }
 
+        System.out.println("total reports:"+ reports.size());
         //Output the details of each scan result from a vendor
         for (Report report : reports) {
             System.out.println(report.getVendor() + " - " + report.getMalwarename());

@@ -8,6 +8,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @RestController
 @RequestMapping(value = virusScannerEndpoints.BASE)
@@ -29,6 +35,26 @@ public class virusScannerController {
             return new ResponseEntity<>( HttpStatus.OK);
             //TODO add rabbitMQ for sending file to the right services
 
+        }
+        return new ResponseEntity<>("Possible virus found. Contact a admin for manual testing if sure there is no virus", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/testScan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> testscan(@RequestBody MultipartFile file)
+    {
+        System.out.println("going to scan now");
+        File filefile = new File("src/main/resources/" + file.getOriginalFilename());
+        try (OutputStream os = new FileOutputStream(filefile)) {
+            os.write(file.getBytes());
+            if(scanOptionChooser.scanFile(filefile))
+            {
+                filefile.delete();
+                return new ResponseEntity<>( HttpStatus.OK);
+                //TODO add rabbitMQ for sending file to the right services
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return new ResponseEntity<>("Possible virus found. Contact a admin for manual testing if sure there is no virus", HttpStatus.BAD_REQUEST);
     }

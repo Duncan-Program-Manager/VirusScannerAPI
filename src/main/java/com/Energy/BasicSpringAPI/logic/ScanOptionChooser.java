@@ -22,10 +22,12 @@ public class ScanOptionChooser {
         boolean safe = false;
         if(sizeChecker.fileSmallEnoughForCloudmersive(file))
         {
+            System.out.println("cloudmersive");
             safe = cloudMersiveScanner.mersiveScan(file);
         }
         else
         {
+            System.out.println("virustotal");
             safe = virusScanHook.scanFile(file);
         }
         return safe;
