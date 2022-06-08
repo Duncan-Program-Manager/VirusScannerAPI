@@ -1,5 +1,7 @@
 package com.Energy.BasicSpringAPI.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.util.Date;
 
@@ -11,9 +13,9 @@ public class ProgramDTO {
     private Date UploadDate;
     private boolean UserUpload;
     private String username;
-    private File file;
+    private MultipartFile file;
 
-    public ProgramDTO(String name, String description, String location, String version, Date uploadDate, boolean userUpload, String username, File file) {
+    public ProgramDTO(String name, String description, String location, String version, Date uploadDate, boolean userUpload, String username, MultipartFile file) {
         Name = name;
         Description = description;
         Location = location;
@@ -80,11 +82,11 @@ public class ProgramDTO {
         this.username = username;
     }
 
-    public File getFile() {
+    public MultipartFile getFile() {
         return file;
     }
 
-    public void setFile(File file) {
+    public void setFile(MultipartFile file) {
         this.file = file;
     }
 }

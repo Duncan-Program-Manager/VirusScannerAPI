@@ -30,11 +30,17 @@ public class virusScannerController {
     @PostMapping(value = virusScannerEndpoints.SCAN, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> scanForVirus(@ModelAttribute ProgramDTO dto)
     {
-        if(scanOptionChooser.scanFile(dto.getFile()))
+        File filefile = new File(dto.getFile().getOriginalFilename());
+        try (OutputStream os = new FileOutputStream(filefile)) {
+            os.write(dto.getFile().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("error with file", HttpStatus.BAD_REQUEST);
+        }
+        if(scanOptionChooser.scanFile(filefile))
         {
             return new ResponseEntity<>( HttpStatus.OK);
             //TODO add rabbitMQ for sending file to the right services
-
         }
         return new ResponseEntity<>("Possible virus found. Contact a admin for manual testing if sure there is no virus", HttpStatus.BAD_REQUEST);
     }
