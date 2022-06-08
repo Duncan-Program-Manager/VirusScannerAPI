@@ -28,7 +28,7 @@ public class virusScannerController {
     }
 
     @PostMapping(value = virusScannerEndpoints.SCAN, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> scanForVirus(@RequestBody ProgramDTO dto)
+    public ResponseEntity<?> scanForVirus(@ModelAttribute ProgramDTO dto)
     {
         if(scanOptionChooser.scanFile(dto.getFile()))
         {
@@ -43,18 +43,26 @@ public class virusScannerController {
     public ResponseEntity<?> testscan(@RequestBody MultipartFile file)
     {
         System.out.println("going to scan now");
-        File filefile = new File("src/main/resources/" + file.getOriginalFilename());
+        File filefile = new File(file.getOriginalFilename());
         try (OutputStream os = new FileOutputStream(filefile)) {
             os.write(file.getBytes());
-            if(scanOptionChooser.scanFile(filefile))
-            {
-                filefile.delete();
-                return new ResponseEntity<>( HttpStatus.OK);
-                //TODO add rabbitMQ for sending file to the right services
-
-            }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        System.out.println(file.getSize());
+        if(scanOptionChooser.scanFile(filefile))
+        {
+            if(filefile.delete())
+            {
+                System.out.println("deleted the file");
+            }
+            else
+            {
+                System.out.println("error deleting file");
+            }
+            return new ResponseEntity<>( HttpStatus.OK);
+            //TODO add rabbitMQ for sending file to the right services
+
         }
         return new ResponseEntity<>("Possible virus found. Contact a admin for manual testing if sure there is no virus", HttpStatus.BAD_REQUEST);
     }

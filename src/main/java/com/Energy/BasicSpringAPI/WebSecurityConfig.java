@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/consumption/**").permitAll()
+                .antMatchers("/scanner/**").permitAll()
                 .and()
                 .cors()
                 .and()
