@@ -6,8 +6,10 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   rabbitmq:
-    host: "localhost"
+    host: "rabbitmqcluster.default.svc"
     port: 5672
+    username: "default_user_SCuK84cj0nAc4Wd4vay"
+    password: "gKlp27iZq9Mba_L6Ll7JIPorIHo539oE"
   datasource:
     url: "jdbc:mysql://82.73.212.90:3307/dpm"
     username: "2nowabout"
