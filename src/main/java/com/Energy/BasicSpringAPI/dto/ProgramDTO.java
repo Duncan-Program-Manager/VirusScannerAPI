@@ -12,7 +12,7 @@ public class ProgramDTO {
     private String Version;
     private Date UploadDate;
     private boolean UserUpload;
-    private String username;
+    private String Username;
     private MultipartFile file;
 
     public ProgramDTO(String name, String description, String location, String version, Date uploadDate, boolean userUpload, String username, MultipartFile file) {
@@ -22,7 +22,7 @@ public class ProgramDTO {
         Version = version;
         UploadDate = uploadDate;
         UserUpload = userUpload;
-        this.username = username;
+        Username = username;
         this.file = file;
     }
 
@@ -75,11 +75,11 @@ public class ProgramDTO {
     }
 
     public String getUsername() {
-        return username;
+        return Username;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        Username = username;
     }
 
     public MultipartFile getFile() {

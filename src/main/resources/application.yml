@@ -3,8 +3,8 @@ server:
 spring:
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 50MB
+      max-request-size: 50MB
   rabbitmq:
     host: "rabbitmqcluster.default.svc"
     port: 5672
