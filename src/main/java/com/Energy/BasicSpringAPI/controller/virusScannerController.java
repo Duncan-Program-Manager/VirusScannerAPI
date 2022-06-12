@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = virusScannerEndpoints.BASE)
@@ -60,6 +61,7 @@ public class virusScannerController {
                 e.printStackTrace();
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
             }
+            userInfo.put("UploadDate", new Date().toString());
 
             fullJson.put("method", "newProgram");
             fullJson.put("data", userInfo);
