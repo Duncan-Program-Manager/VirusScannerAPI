@@ -84,6 +84,7 @@ public class virusScannerController {
     public ResponseEntity<?> testscan(@RequestBody MultipartFile file)
     {
         System.out.println("going to scan now");
+        System.out.println(file);
         File filefile = new File(file.getOriginalFilename());
         try (OutputStream os = new FileOutputStream(filefile)) {
             os.write(file.getBytes());
