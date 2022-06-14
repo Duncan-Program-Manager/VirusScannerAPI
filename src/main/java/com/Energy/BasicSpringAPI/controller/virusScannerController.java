@@ -1,6 +1,7 @@
 package com.Energy.BasicSpringAPI.controller;
 
 import com.Energy.BasicSpringAPI.dto.ProgramDTO;
+import com.Energy.BasicSpringAPI.dto.RabbitDTO;
 import com.Energy.BasicSpringAPI.endpoint.virusScannerEndpoints;
 import com.Energy.BasicSpringAPI.logic.ScanOptionChooser;
 import com.Energy.BasicSpringAPI.rabbitmq.RabbitMQSender;
@@ -52,12 +53,18 @@ public class virusScannerController {
         }
         if(scanOptionChooser.scanFile(filefile))
         {
+            RabbitDTO rabbit = null;
+            try {
+                rabbit = new RabbitDTO(dto.getName(), dto.getDescription(), dto.getVersion(), dto.isUserUpload(), dto.getUsername(), dto.getFile().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             JSONParser parser = new JSONParser();
             Gson gson = new Gson();
             JSONObject fullJson = new JSONObject();
             JSONObject userInfo = null;
             try {
-                userInfo = (JSONObject) parser.parse(gson.toJson(dto));
+                userInfo = (JSONObject) parser.parse(gson.toJson(rabbit));
             } catch (ParseException e) {
                 e.printStackTrace();
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
