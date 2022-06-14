@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RestController
@@ -61,7 +62,9 @@ public class virusScannerController {
                 e.printStackTrace();
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
             }
-            userInfo.put("UploadDate", new Date().toString());
+            String pattern = "MMM dd, yyyy HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            userInfo.put("UploadDate", simpleDateFormat.format(new Date()));
 
             fullJson.put("method", "newProgram");
             fullJson.put("data", userInfo);
