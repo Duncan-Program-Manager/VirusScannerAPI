@@ -45,12 +45,13 @@ public class virusScannerController {
     public ResponseEntity<?> scanForVirus(@ModelAttribute ProgramDTO dto)
     {
         File filefile = new File(dto.getFile().getOriginalFilename());
+        System.out.println("writing file");
         try (OutputStream os = new FileOutputStream(filefile)) {
             os.write(dto.getFile().getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("error with file", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+        System.out.println("scanningchoice");
         if(scanOptionChooser.scanFile(filefile))
         {
             RabbitDTO rabbit = null;
